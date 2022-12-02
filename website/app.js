@@ -22,11 +22,11 @@ const error = document.getElementById("error");
  * post the data in the server
  * get the data to update UI
  */
-
 const generateData = () => { 
   //get value after click on the button
   const zip = document.getElementById("zip").value;
   const feelings = document.getElementById("feelings").value;
+
 
   // getWeatherData return promise
   getWeatherData(zip).then((data) => {
@@ -45,17 +45,16 @@ const generateData = () => {
         description,
         feelings,
       };
-
       postData(server + "/add", info);
-
       updatingUI();
       document.getElementById('entry').style.opacity = 1;
     }
   });
 };
-
 // Event listener to add function to existing HTML DOM element
 // Function called by event listener
+
+
 document.getElementById("generate").addEventListener("click", generateData);
 
 //Function to GET Web API Data
@@ -64,7 +63,7 @@ const getWeatherData = async (zip) => {
     const res = await fetch(baseURL + zip + apiKey);
     const data = await res.json();
 
-    if (data.cod != 200) {
+    if (data.code != 200) {
       // display the error message on UI
       error.innerHTML = data.message;
       setTimeout(_=> error.innerHTML = '', 2000)
@@ -97,12 +96,13 @@ const postData = async (url = "", info = {}) => {
 };
 
 //Function to GET Project Data
+
+
 // and updating UI by this data
 const updatingUI = async () => {
   const res = await fetch(server + "/all");
   try {
     const savedData = await res.json();
-
     document.getElementById("date").innerHTML = savedData.newDate;
     document.getElementById("city").innerHTML = savedData.city;
     document.getElementById("temp").innerHTML = savedData.temp + '&degC';
